@@ -26,25 +26,37 @@ print("Account Balanace: ",end=" ");
 AccountBalance = input();
 AccountBalance = float(AccountBalance);
 
-print('Risk Tolerance %: ',end=" ");
-RiskTolerance = input(); RiskTolerance = float(RiskTolerance); RiskTolerance = RiskTolerance/100;
+print('Risk Tolerance %: (def 1.5%) ',end=" "); RiskTolerance = input();
+if not RiskTolerance:
+     RiskTolerance = "1.5";
+
+RiskTolerance = float(RiskTolerance); RiskTolerance = RiskTolerance/100;
 
 
-print('Option Price:' , end=" ");
-OptionPrice = input(); OptionPrice = float(OptionPrice); OptionPrice = OptionPrice/100;
+print('Option Price:' , end=" "); OptionPrice = input(); 
+try:    
+    OptionPrice = float(OptionPrice); OptionPrice = OptionPrice/100;
+except ValueError:
+    print("No Option Price was entered. Can't continue...");
+    exit();
+
 
 # How much of my account to use for collateral. This is not the STOPLOSS
 CollateralNeeded = AccountBalance * RiskTolerance;
 
 # STOP-LOSS CALCS
-print('Stop-Loss % of Position (def: 25%) :',end=" ");
-StopLossPercent = input();
+print('Stop-Loss % of Position (def: 25%) :',end=" "); StopLossPercent = input();
+if not StopLossPercent:
+    StopLossPercent = "25";
+
 StopLossPercent = int(StopLossPercent);
 SL = float(StopLossPercent/100);
 
 # Take-PROFIT CALCS
-print('Take-Profit % of Position (def: 50%) :',end=" ");
-TakeProfitPercent = input();
+print('Take-Profit % of Position (def: 50%) :',end=" "); TakeProfitPercent = input();
+if not TakeProfitPercent:
+    TakeProfitPercent = "50";
+    
 TakeProfitPercent = int(TakeProfitPercent);
 TP = float(TakeProfitPercent/100);
 
@@ -61,7 +73,7 @@ SizeOfOrder = CollateralNeeded / CapitalRiskPerOption;
 SizeOfOrder = int(SizeOfOrder);
 
 StopOutCapitalLoss = SizeOfOrder * CapitalRiskPerOption;
-TakeProfitCapitalGain = SizeOfOrder * (CapitalGainPerOption);
+TakeProfitCapitalGain = SizeOfOrder * CapitalGainPerOption;
 
 
 print("");
